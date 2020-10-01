@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+   <head>
+      <title>URL Shortener</title>
+      <link rel="shortcut icon" href="https://img.icons8.com/offices/30/000000/delete-link.png" type="image/x-icon"/>
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+      <link href="/public/style.css" rel="stylesheet" type="text/css">
+   </head>
+
+   <body>
+      <div class="container">
+        <h2>API Project: URL Shortener Microservice</h2>
+        <h3>User Story: </h3>
+
+        <p>A microservice that creates a shortened url for any valid site. Enter a valid website below to be provided a short url id.</p>
+        
+        <h3>Short URL Creation </h3>
+        <p>
+          example: <code>POST [project_url]/api/shorturl/new</code> - <code>https://www.google.com</code>
+        </p>
+        <form action="api/shorturl/new" method="POST">
+          <label for="url_input">URL to be shortened</label>
+          <input id="url_input" type="text" name="url" value="https://www.google.com">
+          <input type="submit" value="POST URL">
+        </form>
+        <h3>Example Usage:</h3>
+        <a href="https://boilerplate-project-urlshortener.bryanw1.repl.co/api/shorturl/1">
+          [this_project_url]/api/shorturl/1
+        </a>
+
+        <h3>Will Redirect to:</h3>
+        <p>https://www.google.com</p>
+      </div>
+      <div class="footer">
+        <p>
+          by Bryan Wong
+        </p>
+      </div>
+   </body>
+</html>

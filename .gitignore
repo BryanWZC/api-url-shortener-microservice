@@ -1,0 +1,8 @@
+# Folders
+node_modules
+
+# Files
+.env
+.gitconfig
+.hyperdev-assets
+.replit
