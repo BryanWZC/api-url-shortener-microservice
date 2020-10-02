@@ -46,18 +46,23 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.post('/api/shorturl/new', async (req, res) => {
-    if (!checkUrlValid(req.body.url)) res.json({error: 'invalid URL'});
+        if (!(await checkUrlValid(sanitizeUrl(req.body.url)))) res.json({error: 'Invalid Url'});
 
-    const found = await findSite({original_url: req.body.url});
-    const shortUrl = found ? found.short_url : await findLastShortUrl() + 1 || 1;
-    const entry = {
-            original_url: req.body.url,
-            short_url: shortUrl
-        };
+        const found = await findSite({original_url: req.body.url});
+        const shortUrl = found ? found.short_url : await findLastShortUrl() + 1 || 1;
+        const entry = {
+                original_url: req.body.url,
+                short_url: shortUrl
+            };
+        if (!found) await Url.create(entry);
+        
+        res.json(entry);
+        
 
-    if (!found) await Url.create(entry);
     
-    res.json(entry);
+    // if (!checked) await res.json({error: 'invalid URL'});
+
+    
 });
 
 app.get('/api/shorturl/:url', async (req, res) => {
@@ -91,13 +96,24 @@ async function findLastShortUrl(){
 
 /**
  * Checks if url is valid.
- * @param  {String}      - url to be checked 
+ * @param  {String} url  - url to be checked 
  * @return {Boolean}     - returns true if url/site is valid. Else, return false.
  */
 function checkUrlValid(url){
-    dns.lookup(url, (err, address, family) => {
-        if (err) return false;
-    });
-    return true;
+    console.log(url.length)
+    return new Promise ((res, rej) => dns.lookup(url, (err, address, family) => {
+        console.log(err)
+        if (err) res(false);
+        res(true);
+        }));
 };
 
+/**
+ * Sanitizes the url so that it will be valid for DNS lookup.
+ * @param  {String} url  - url to be checked 
+ * @return {String}      - returns sanitized url
+ */
+function sanitizeUrl(url){
+    const regex = /^(https:\/\/|http:\/\/)/i;
+    return url.trim().replace(regex, '');
+}
