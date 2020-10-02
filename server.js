@@ -73,7 +73,7 @@ app.get('/api/shorturl/:url', async (req, res) => {
 })
 
 app.listen(port, function () {
-  console.log(`Listening on port ${port}`);
+    console.log(`Listening on port ${port}`);
 });
 
 /**
@@ -100,9 +100,7 @@ async function findLastShortUrl(){
  * @return {Boolean}     - returns true if url/site is valid. Else, return false.
  */
 function checkUrlValid(url){
-    console.log(url.length)
     return new Promise ((res, rej) => dns.lookup(url, (err, address, family) => {
-        console.log(err)
         if (err) res(false);
         res(true);
         }));
